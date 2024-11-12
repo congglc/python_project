@@ -1,7 +1,7 @@
 import pygame
-import time
 import Finding
 import random
+import time
 from Finding import matrix1
 pathfinder=Finding.Pathfinder(matrix1)
 pygame.init()
@@ -117,7 +117,6 @@ def load_tileset(filename,width,height):
     return tileset
 
 
-#them hoi mau
 health_items = []
 
 class HealthItem(Object):
@@ -141,6 +140,12 @@ class HealthItem(Object):
         if time.time() - self.spawn_time > 5 or self.used:
             health_items.remove(self)
             objects.remove(self)
+            
+            
+
+
+
+
 
 
 class Enemy(Entity):
@@ -225,9 +230,11 @@ class Enemy(Entity):
         spawn_particles(self.x-self.width/2,self.y-self.height/2)
         objects.remove(self)
         enemies.remove(self) 
+
+        # 50% tỉ lệ rơi ra vật phẩm hồi máu
         if random.random() < 0.5:
             health_item = HealthItem(self.x, self.y, 30, 30, pygame.image.load('Zombies/thuoc.png'))
-            health_items.append(health_item)      
+            health_items.append(health_item)   
 
     def get_center(self):
         return self.x+self.width/2,self.y+self.height/2
