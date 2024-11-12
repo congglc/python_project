@@ -438,8 +438,10 @@ while run:
                     if(e.take_damage(1)):
                         count += 1
                         sokill+=1
-                    bullets.remove(b)
-                    Z.objects.remove(b)  
+                    if b in bullets:
+                        bullets.remove(b)
+                    if b in Z.objects:  
+                        Z.objects.remove(b)
         
 
 
