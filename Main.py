@@ -418,6 +418,8 @@ while run:
         for obj in Z.objects:
             if (type(obj)==Z.Enemy):
                 obj.update(player)
+            elif (type(obj)==Z.HealthItem ):
+                obj.update(player, Z.health_items)
             else:
                 obj.update()
         for e in Z.enemies:
@@ -432,7 +434,10 @@ while run:
                         count += 1
                         sokill+=1
                     bullets.remove(b)
-                    Z.objects.remove(b)     
+                    Z.objects.remove(b) 
+        for item in Z.health_items[:]:
+            item.draw()
+               
         for p in Z.particles:
             p.image.set_alpha(p.image.get_alpha()-1)
             if p.image.get_alpha()==0:
