@@ -5,6 +5,7 @@ import os
 import button
 import Zombie_game.Zombie_game as Z
 import random
+import time
 pygame.init()
 
 screen_width = 1400
@@ -284,6 +285,8 @@ start_ticks=pygame.time.get_ticks()
     
 target=Z.Object(0,0,50,50,pygame.image.load("player_bullet/tam.png"))
 health_bar = HealthBar(40, 20, player.health, player.health)
+
+
 bullets = []
 
 def shoot():
@@ -305,6 +308,7 @@ def shoot():
     bullet.velocity*=6
     bullets.append(bullet)
 
+
 #added by bao
 def reset_game():
     # Reset các biến toàn cục
@@ -314,6 +318,7 @@ def reset_game():
     Z.enemies.clear()
     Z.objects.clear()
     Z.particles.clear()
+    Z.health_items.clear()
     
     
     # Reset biến đếm và thời gian
@@ -427,6 +432,8 @@ while run:
         for obj in Z.objects:
             if (type(obj)==Z.Enemy):
                 obj.update(player)
+            elif (type(obj)==Z.HealthItem ):
+                obj.update(player, Z.health_items)
             else:
                 obj.update()
         for e in Z.enemies:
@@ -440,8 +447,22 @@ while run:
                     if(e.take_damage(1)):
                         count += 1
                         sokill+=1
-                    bullets.remove(b)
-                    Z.objects.remove(b)     
+                    if b in bullets:
+                        bullets.remove(b)
+                    if b in Z.objects:  
+                        Z.objects.remove(b)
+        
+
+
+        for item in Z.health_items[:]:
+            item.draw()
+            
+            
+            
+
+
+       
+                    
         for p in Z.particles:
             p.image.set_alpha(p.image.get_alpha()-1)
             if p.image.get_alpha()==0:
@@ -450,8 +471,8 @@ while run:
                 continue
             Z.objects.remove(p)
             Z.objects.insert(0,p)
- 
-
+        
+              
         if player.alive:
             isdie = True
             bg_musicHome.stop()
