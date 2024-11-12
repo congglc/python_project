@@ -61,9 +61,11 @@ menu_img = pygame.transform.scale(pygame.image.load('asset2/menu.png'), (200, 11
 bg_surface = pygame.transform.scale(pygame.image.load('asset2/background13.png'), (1400, 787))
 portal_suface = pygame.transform.scale(pygame.image.load('asset2/portal.png').convert_alpha(), (120, 120))
 portal_rect = portal_suface.get_rect(center = (1328, 608))
-heart_img = pygame.transform.scale(pygame.image.load('asset2/green.png'), (30, 60))
-heart_rect = heart_img.get_rect(center = (25, 28))
 bg_img = pygame.transform.scale(pygame.image.load('asset2/background11.png'), (1400, 787))
+red_heart = pygame.transform.scale(pygame.image.load('asset2/red-heart.png'), (30, 30))
+black_heart = pygame.transform.scale(pygame.image.load('asset2/black-heart.png'), (30, 30))
+heart_rect = red_heart.get_rect(center = (25, 30))
+
 img_list = []
 for x in range(TILE_TYPES):
     img = pygame.image.load(f'asset2/{x}.png')
@@ -90,7 +92,14 @@ attacking = False
 def draw_bg():
     screen.fill('#89A477')
     screen.blit(bg_surface, (0, 0))
-    screen.blit(heart_img, heart_rect)
+    # Hiển thị 10 trái tim đỏ
+    for i in range(10):
+        x_position = 25 + i * (27 + 10)  # 20 là cách lề trái, 27 là chiều rộng ảnh, 10 là khoảng cách giữa ảnh
+        screen.blit(red_heart, (x_position, 25)) # 25 là vị trí y để căn giữa ảnh theo chiều cao
+    # Hiển thị 10 trái tim đen
+    # for i in range(10):
+    #     x_position = 25 + i * (27 + 10)  
+    #     screen.blit(black_heart, (x_position, 25)) 
     if is_win:
         screen.blit(portal_suface, portal_rect)
 def reset_level():
