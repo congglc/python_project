@@ -43,7 +43,7 @@ bg_musicHome.set_volume(0.4)
 shot_music.set_volume(0.2)
 
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Ngoi truong xac song")
+pygame.display.set_caption("Ngôi trường xác sống")
 clock = pygame.time.Clock()
 
 
@@ -214,14 +214,14 @@ class HealthBar():
 		self.y = y
 		self.health = health
 		self.max_health = max_health
-	def draw(self, health):
+	# def draw(self, health):
 		#update with new health
-		self.health = health
+		# self.health = health
 		#calculate health ratio
-		ratio = self.health / self.max_health
-		pygame.draw.rect(screen, 'BLACK', (self.x - 2, self.y - 2, 154, 24))
-		pygame.draw.rect(screen, 'RED', (self.x, self.y, 150, 20))
-		pygame.draw.rect(screen, 'GREEN', (self.x, self.y, 150 * ratio, 20))
+		# ratio = self.health / self.max_health
+		# pygame.draw.rect(screen, 'BLACK', (self.x - 2, self.y - 2, 154, 24))
+		# pygame.draw.rect(screen, 'RED', (self.x, self.y, 150, 20))
+		# pygame.draw.rect(screen, 'GREEN', (self.x, self.y, 150 * ratio, 20))
         
         
 #Creat map     
@@ -284,7 +284,6 @@ enemy=Z.Enemy(1306, 611, 60, 60, f'Zombies/{random.randint(1,4)}_Zombie.png', 4,
 start_ticks=pygame.time.get_ticks()
     
 target=Z.Object(0,0,50,50,pygame.image.load("player_bullet/tam.png"))
-health_bar = HealthBar(40, 20, player.health, player.health)
 
 
 bullets = []
@@ -312,7 +311,7 @@ def shoot():
 #added by bao
 def reset_game():
     # Reset các biến toàn cục
-    global times, start_ticks, player, world, count, target,sokill
+    global times, start_ticks, player, world, count, target, sokill
     
     # Xóa các đối tượng
     Z.enemies.clear()
@@ -327,7 +326,7 @@ def reset_game():
     sokill =0
     start_ticks = pygame.time.get_ticks()
     #thêm lại các enemy ban đầu 
-    enemy=Z.Enemy(161,173,75,75,f'Zombies/{random.randint(1,4)}_Zombie.png',4,5)
+    enemy=Z.Enemy(161, 173, 75, 75,f'Zombies/{random.randint(1,4)}_Zombie.png', 4, 5)
     enemy=Z.Enemy(1292, 121, 80, 80, f'Zombies/{random.randint(1,4)}_Zombie.png', 3, 4)    
     enemy=Z.Enemy(1306, 611, 60, 60, f'Zombies/{random.randint(1,4)}_Zombie.png', 4, 2)     
     # Reset player và world
@@ -425,7 +424,6 @@ while run:
         bg_music.play(loops = -1, fade_ms = 3)  
         world.draw()
         draw_bg()
-        health_bar.draw(player.health)
         player.update()
         player.draw()
         displayScore()
@@ -436,6 +434,36 @@ while run:
                 obj.update(player, Z.health_items)
             else:
                 obj.update()
+            # - red heart; + black heart
+            if player.health >= 90 and player.health < 100:
+                screen.blit(black_heart, (25 + 9 * (27 + 10), 25))
+            if player.health >= 80 and player.health < 90:
+                for i in range(8, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 70 and player.health < 80:
+                for i in range(7, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 60 and player.health < 70:
+                for i in range(6, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 50 and player.health < 60:
+                for i in range(5, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 40 and player.health < 50:
+                for i in range(4, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 30 and player.health < 40:
+                for i in range(3, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 20 and player.health < 30:
+                for i in range(2, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health >= 10 and player.health < 20:
+                for i in range(1, 10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 25))
+            if player.health == 0:
+                for i in range(10):
+                    screen.blit(black_heart, (25 + i * (27 + 10), 26))
         for e in Z.enemies:
             if pygame.Rect.colliderect(e.image_rect,player.rect)==True:
                 player.health-=0.5
@@ -446,23 +474,13 @@ while run:
                if pygame.Rect.colliderect(e.image_rect,b.image_rect)==True:
                     if(e.take_damage(1)):
                         count += 1
-                        sokill+=1
+                        sokill += 1
                     if b in bullets:
                         bullets.remove(b)
                     if b in Z.objects:  
                         Z.objects.remove(b)
-        
-
-
         for item in Z.health_items[:]:
             item.draw()
-            
-            
-            
-
-
-       
-                    
         for p in Z.particles:
             p.image.set_alpha(p.image.get_alpha()-1)
             if p.image.get_alpha()==0:

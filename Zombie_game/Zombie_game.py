@@ -3,8 +3,10 @@ import Finding
 import random
 import time
 from Finding import matrix1
+
 pathfinder=Finding.Pathfinder(matrix1)
 pygame.init()
+
 SCREEN_SIZE=(1400,787)
 window=pygame.display.set_mode(SCREEN_SIZE)
 clock=pygame.time.Clock()
@@ -13,6 +15,7 @@ RIGHT=1
 UP=2 
 LEFT=3
 ANIMATION_FRAME_RATE = 10
+screen = pygame.display.set_mode((1400, 780))
 
 objects=[]
 enemies=[]
@@ -116,7 +119,6 @@ def load_tileset(filename,width,height):
     
     return tileset
 
-
 health_items = []
 
 class HealthItem(Object):
@@ -131,7 +133,6 @@ class HealthItem(Object):
         super().draw()
         
     def update(self, player, health_items):
-    
         if player.rect.colliderect(self.rect.inflate(20, 20)):
             if player.health <= 100:
                 player.health = min(self.healing_amount + player.health, 100)
@@ -140,12 +141,6 @@ class HealthItem(Object):
         if time.time() - self.spawn_time > 5 or self.used:
             health_items.remove(self)
             objects.remove(self)
-            
-            
-
-
-
-
 
 
 class Enemy(Entity):
@@ -156,9 +151,6 @@ class Enemy(Entity):
 
         enemies.append(self)
 
-   
-
-    
     def set_path(self,path):
         self.path=path
         self.create_collision_rects()
@@ -232,8 +224,8 @@ class Enemy(Entity):
         enemies.remove(self) 
 
         # 50% tỉ lệ rơi ra vật phẩm hồi máu
-        if random.random() < 0.5:
-            health_item = HealthItem(self.x, self.y, 30, 30, pygame.image.load('Zombies/thuoc.png'))
+        if random.random() < 0.4:
+            health_item = HealthItem(self.x, self.y, 45, 45, pygame.image.load('Zombies/thuoc.png')) # 45 là kích thước của Item
             health_items.append(health_item)   
 
     def get_center(self):
