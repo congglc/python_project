@@ -29,6 +29,7 @@ bg_scroll = 0
 isdie = True
 record = 0
 count = 0
+is_muted = False
 #Display and asset info
 
 bg_musicHome = pygame.mixer.Sound('Sound/cottagecore-17463.mp3')
@@ -56,6 +57,8 @@ resume_img = pygame.transform.scale(pygame.image.load('asset2/resume.png'), (200
 restart_img = pygame.transform.scale(pygame.image.load('asset2/restart.png'), (200, 111))
 board_img = pygame.transform.scale(pygame.image.load('asset2/board.png'), (1200, 635))
 menu_img = pygame.transform.scale(pygame.image.load('asset2/menu.png'), (200, 111))
+mute_img = pygame.transform.scale(pygame.image.load('asset2/mute.png'), (46, 46))
+unmute_img = pygame.transform.scale(pygame.image.load('asset2/unmute.png'), (50, 50))
 
 
 #Background images
@@ -97,10 +100,6 @@ def draw_bg():
     for i in range(10):
         x_position = 25 + i * (27 + 10)  # 20 là cách lề trái, 27 là chiều rộng ảnh, 10 là khoảng cách giữa ảnh
         screen.blit(red_heart, (x_position, 25)) # 25 là vị trí y để căn giữa ảnh theo chiều cao
-    # Hiển thị 10 trái tim đen
-    # for i in range(10):
-    #     x_position = 25 + i * (27 + 10)  
-    #     screen.blit(black_heart, (x_position, 25)) 
     if is_win:
         screen.blit(portal_suface, portal_rect)
 def reset_level():
@@ -213,16 +212,7 @@ class HealthBar():
 		self.x = x
 		self.y = y
 		self.health = health
-		self.max_health = max_health
-	# def draw(self, health):
-		#update with new health
-		# self.health = health
-		#calculate health ratio
-		# ratio = self.health / self.max_health
-		# pygame.draw.rect(screen, 'BLACK', (self.x - 2, self.y - 2, 154, 24))
-		# pygame.draw.rect(screen, 'RED', (self.x, self.y, 150, 20))
-		# pygame.draw.rect(screen, 'GREEN', (self.x, self.y, 150 * ratio, 20))
-        
+		self.max_health = max_health       
         
 #Creat map     
 class World():
@@ -269,7 +259,9 @@ start_button = button.Button(screen_width // 2 - 100, screen_height // 2 - 300, 
 exit_button = button.Button(screen_width // 2 - 100, screen_height // 2 - 150, exit_img, 1)
 restart_button = button.Button(screen_width // 2 - 100, screen_height // 2 - 150, restart_img, 1)
 menu_button = button.Button(screen_width // 2 - 100, screen_height // 2 - 300, menu_img, 1)
-resume_button= button.Button(screen_width // 2 - 100, screen_height // 2 - 300, resume_img , 1)
+resume_button = button.Button(screen_width // 2 - 100, screen_height // 2 - 300, resume_img , 1)
+mute_button = button.Button(screen_width - 60, 10, mute_img , 1)
+unmute_button = button.Button(screen_width - 60, 10, unmute_img , 1)
 #Create objects
 world = World()
 player = world.process_data(world_data)
@@ -380,8 +372,28 @@ while run:
             bg_musicHome.stop()
             start_music.play()
             start_game = True
+            is_muted = False
         if exit_button.draw(screen):
             run = False
+        if not is_muted:
+            if unmute_button.draw(screen):
+                start_music.set_volume(0)
+                hit_sound.set_volume(0)
+                bg_music.set_volume(0)
+                shot_music.set_volume(0)
+                died_music.set_volume(0)
+                bg_musicHome.set_volume(0)
+                is_muted = True
+        else:
+            if mute_button.draw(screen):
+                start_music.play()
+                hit_sound.play()
+                bg_music.set_volume(0.1)
+                shot_music.set_volume(0.2)
+                died_music.play()
+                bg_musicHome.set_volume(0.4)
+                is_muted = False
+        pygame.display.flip()
             
     elif is_win and player.rect.colliderect(portal_rect):
             screen.fill('Black')
@@ -592,7 +604,6 @@ while run:
                 moving_down = False
             if event.key == pygame.K_ESCAPE:
                 run = False
-        
     #draw_text('Press SPACE to pause', font, 'White', 100, 250)
     pygame.display.update()
     
