@@ -10,4 +10,4 @@ Các Đặc Điểm Chính
 ●	Hình Ảnh và Âm Thanh Sắc Nét: Trải nghiệm game được tối ưu hóa với đồ họa và âm thanh sắc nét, mang đến cho người chơi trải nghiệm hấp dẫn và kịch tính.
 ●	Có những tính năng cơ bản: tạm dừng/tiếp tục cuộc chiến, bật tắt âm thanh, thoát khỏi cuộc chiến.
 ●	Di chuyển và thực hiện tấn công mượt mà với các phím di chuyển A, W, D, S và sử dụng chuột điều hướng tâm ngắm cũng như click chuột trái để tấn công.
-●	Hiển thị thanh máu bắt mắt, cho phép người chơi tiêu diệt zombie để săn những vật phẩm hồi máu với tỉ lệ xuất hiện ngẫu nhiên(40%). 
+●	Hiển thị thanh máu bắt mắt, cho phép người chơi tiêu diệt zombie để săn những vật phẩm hồi máu với tỉ lệ xuất hiện ngẫu nhiên(40%)....
